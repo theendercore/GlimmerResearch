@@ -30,9 +30,9 @@ repositories {
 //println("Task: " + gradle.startParameter.taskNames.joinToString(","))
 
 modSettings {
-    entrypoint("main", "org.teamvoided.template.Template::init")
-    entrypoint("client", "org.teamvoided.template.client.TemplateClient::init")
-    entrypoint("fabric-datagen", "org.teamvoided.template.data.gen.TemplateData")
+    entrypoint("main", "com.theendercore.glimmer_research.GlimmerResearch::init")
+    entrypoint("client", "com.theendercore.glimmer_research.client.GlimmerResearchClient::init")
+    entrypoint("fabric-datagen", "com.theendercore.glimmer_research.data.gen.GlimmerResearchData")
 
     mixinFile("${modId()}.client.mixins.json")
     mixinFile("${modId()}.mixins.json")

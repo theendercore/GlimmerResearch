@@ -1,4 +1,4 @@
-package org.teamvoided.template.mixin;
+package com.theendercore.glimmer_research.mixin;
 
 import com.mojang.datafixers.DataFixer;
 import net.minecraft.server.MinecraftServer;
@@ -14,13 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.net.Proxy;
 
-import static org.teamvoided.template.Template.log;
 
 @Mixin(MinecraftServer.class)
 public class ExampleServerMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private static void run(Thread thread, LevelStorageSource.LevelStorageAccess levelStorageAccess, PackRepository packRepository, WorldStem worldStem, Proxy proxy, DataFixer dataFixer, Services services, ChunkProgressListenerFactory chunkProgressListenerFactory, CallbackInfo ci) {
-        log.info("Hello from server Mixin");
     }
 }

@@ -1,10 +1,14 @@
 package com.theendercore.glimmer_research
 
+import com.theendercore.glimmer_research.config.GlimmerResearchConfig
+import com.theendercore.glimmer_research.init.GRBlocks
+import com.theendercore.glimmer_research.init.GREntities
+import com.theendercore.glimmer_research.init.GRItems
+import com.theendercore.glimmer_research.init.GRTabs
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi
 import net.minecraft.resources.ResourceLocation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.theendercore.glimmer_research.config.GlimmerResearchConfig
 
 @Suppress("unused")
 object GlimmerResearch {
@@ -17,6 +21,10 @@ object GlimmerResearch {
     var config = ConfigApi.registerAndLoadConfig(::GlimmerResearchConfig)
 
     fun init() {
+        GRBlocks.init()
+        GRItems.init()
+        GREntities.init()
+        GRTabs.init()
     }
 
     fun id(namespace: String, path: String): ResourceLocation = ResourceLocation.fromNamespaceAndPath(namespace, path)

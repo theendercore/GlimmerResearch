@@ -2,6 +2,7 @@ package com.theendercore.glimmer_research.init
 
 import com.theendercore.glimmer_research.GlimmerResearch.id
 import com.theendercore.glimmer_research.block.GlimmerBlock
+import com.theendercore.glimmer_research.block.GlimmerCauldronBlock
 import com.theendercore.glimmer_research.util.getModEntries
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -16,7 +17,8 @@ object GRBlocks {
     val BLOCKS get() = getModEntries(BuiltInRegistries.BLOCK)
 
 
-    val GLIMMER_BLOCK = register("glimmer_block", Block(ofFullCopy(Blocks.AMETHYST_BLOCK)))
+    val GLIMMER_BLOCK = register("glimmer_block", GlimmerBlock(ofFullCopy(Blocks.AMETHYST_BLOCK)))
+    val GLIMMER_CAULDRON = register("glimmer_cauldron", GlimmerCauldronBlock(ofFullCopy(Blocks.AMETHYST_BLOCK)))
 
     fun init() = Unit
 

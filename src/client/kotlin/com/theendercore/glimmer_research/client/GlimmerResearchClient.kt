@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block
 object GlimmerResearchClient {
     fun init() {
 //        EntityRendererRegistry.register(EverEntities.HOLIELAMB, ::SheepRenderer)
-        layer(RenderType.translucent(), GRBlocks.GLIMMER_BLOCK)
+        layer(RenderType.translucent(), GRBlocks.GLIMMER_CAULDRON)
     }
 
     fun layer(type: RenderType, vararg blocks: Block) {

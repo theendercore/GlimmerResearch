@@ -1,5 +1,6 @@
 package com.theendercore.glimmer_research
 
+import com.theendercore.glimmer_research.block.GlimmerCauldronBlock
 import com.theendercore.glimmer_research.config.GlimmerResearchConfig
 import com.theendercore.glimmer_research.init.GRBlocks
 import com.theendercore.glimmer_research.init.GREntities
@@ -25,9 +26,13 @@ object GlimmerResearch {
         GRBlocks.init()
         GREntities.init()
         GRTabs.init()
+
+
+        GlimmerCauldronBlock.bootstrapInteractions()
     }
 
     fun id(namespace: String, path: String): ResourceLocation = ResourceLocation.fromNamespaceAndPath(namespace, path)
     fun mc(path: String): ResourceLocation = ResourceLocation.withDefaultNamespace(path)
     fun id(path: String) = id(MODID, path)
+    fun sId(path: String) = id(path).toString()
 }

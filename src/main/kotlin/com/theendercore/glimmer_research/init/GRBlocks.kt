@@ -17,8 +17,8 @@ object GRBlocks {
     val BLOCKS get() = getModEntries(BuiltInRegistries.BLOCK)
 
 
-    val GLIMMER_BLOCK = register("glimmer_block", GlimmerBlock(ofFullCopy(Blocks.AMETHYST_BLOCK)))
-    val GLIMMER_CAULDRON = register("glimmer_cauldron", GlimmerCauldronBlock(ofFullCopy(Blocks.AMETHYST_BLOCK)))
+    val GLIMMER = register("glimmer", GlimmerBlock(ofFullCopy(Blocks.AMETHYST_BLOCK)))
+    val GLIMMER_CAULDRON = registerNoItem("glimmer_cauldron", GlimmerCauldronBlock(ofFullCopy(Blocks.AMETHYST_BLOCK)))
 
     fun init() = Unit
 

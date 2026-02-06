@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec
 import com.theendercore.glimmer_research.GlimmerResearch.sId
 import com.theendercore.glimmer_research.api.CauldronInteractionRegistry
 import com.theendercore.glimmer_research.init.GRBlocks
+import com.theendercore.glimmer_research.util.getRecipeInputs
 import com.theendercore.glimmer_research.util.givePlayer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.cauldron.CauldronInteraction
@@ -13,6 +14,7 @@ import net.minecraft.stats.Stats
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.Level
@@ -26,8 +28,29 @@ class GlimmerCauldronBlock(properties: Properties) : AbstractCauldronBlock(prope
     override fun getContentHeight(blockState: BlockState): Double = 0.9375
     override fun isFull(blockState: BlockState): Boolean = true
     override fun entityInside(blockState: BlockState, level: Level, blockPos: BlockPos, entity: Entity) {
-        if (isEntityInsideContent(blockState, blockPos, entity) && entity is ItemEntity) {
-            entity.setDeltaMovement(0.0, 0.25, 0.0)
+        if (isEntityInsideContent(blockState, blockPos, entity)) {
+            entity.deltaMovement = entity.deltaMovement.scale(0.5)
+            if (entity is ItemEntity) {
+                val stack = entity.item
+
+                val (count, list) = getRecipeInputs(level, stack.copy())
+                if (list.isEmpty()) return
+
+                val iterations = stack.count / count
+
+                repeat(iterations) {
+                    for (itemStack in list) {
+                        val resultItem = ItemEntity(
+                            level, entity.x, entity.y, entity.z, itemStack.copy(),
+                            level.random.nextDouble() * 0.1 - 0.05,
+                            0.25,
+                            level.random.nextDouble() * 0.1 - 0.05
+                        )
+                        level.addFreshEntity(resultItem)
+                    }
+                }
+                stack.shrink(count * iterations)
+            }
         }
     }
 
@@ -65,6 +88,7 @@ class GlimmerCauldronBlock(properties: Properties) : AbstractCauldronBlock(prope
 
                     ItemInteractionResult.sidedSuccess(level.isClientSide)
                 }
+            Item.BY_BLOCK[GRBlocks.GLIMMER_CAULDRON] = Items.CAULDRON
         }
     }
 }

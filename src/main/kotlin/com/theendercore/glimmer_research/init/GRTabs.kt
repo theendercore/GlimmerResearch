@@ -17,7 +17,7 @@ object GRTabs {
     val TAB = register(
         MODID, FabricItemGroup.builder()
             .title(Component.translatable(TAB_NAME))
-            .icon { GRBlocks.GLIMMER_BLOCK.asItem().defaultInstance }
+            .icon { GRBlocks.GLIMMER.asItem().defaultInstance }
             .displayItems { params, output ->
                 output.acceptAll(GRItems.ITEMS.map(Item::getDefaultInstance))
             }

@@ -5,14 +5,26 @@ import com.theendercore.glimmer_research.init.GRItems
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.data.models.BlockModelGenerators
+import net.minecraft.data.models.BlockModelGenerators.createSimpleBlock
 import net.minecraft.data.models.ItemModelGenerators
 import net.minecraft.data.models.model.ModelTemplate
 import net.minecraft.data.models.model.ModelTemplates
+import net.minecraft.data.models.model.TextureMapping
 import net.minecraft.world.item.Item
 
 class ModelProvider(o: FabricDataOutput) : FabricModelProvider(o) {
     override fun generateBlockStateModels(gen: BlockModelGenerators) {
-        gen.createTrivialCube(GRBlocks.GLIMMER_BLOCK)
+        gen.createTrivialCube(GRBlocks.GLIMMER)
+
+        gen.blockStateOutput.accept(
+            createSimpleBlock(
+                GRBlocks.GLIMMER_CAULDRON, ModelTemplates.CAULDRON_FULL.create(
+                    GRBlocks.GLIMMER_CAULDRON,
+                    TextureMapping.cauldron(TextureMapping.getBlockTexture(GRBlocks.GLIMMER, "_still")),
+                    gen.modelOutput
+                )
+            )
+        )
     }
 
     override fun generateItemModels(gen: ItemModelGenerators) {

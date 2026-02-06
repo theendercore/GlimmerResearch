@@ -21,8 +21,8 @@ object GlimmerResearch {
     var config = ConfigApi.registerAndLoadConfig(::GlimmerResearchConfig)
 
     fun init() {
-        GRBlocks.init()
         GRItems.init()
+        GRBlocks.init()
         GREntities.init()
         GRTabs.init()
     }

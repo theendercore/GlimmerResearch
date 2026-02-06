@@ -5,6 +5,9 @@ import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import kotlin.jvm.optionals.getOrNull
 
+fun Holder<*>.getId() = unwrapKey().getOrNull()?.location()
+fun <T> isModHolder(holder: Holder<T>) = holder.`is` { it.location().namespace == MODID }
+
 fun <T> getModHolders(registry: Registry<T>): List<Holder<T>> = registry.holders()
     .filter(::isModHolder)
     .toList()
@@ -14,6 +17,3 @@ fun <T> getModEntries(registry: Registry<T>): List<T> = registry.holders()
     .map(Holder<T>::value)
     .toList()
 
-fun Holder<*>.getId() = unwrapKey().getOrNull()?.location()
-
-fun <T> isModHolder(holder: Holder<T>) = holder.`is` { it.location().namespace == MODID }

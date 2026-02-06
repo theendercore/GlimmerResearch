@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item.Properties
 
 
 object GRItems {
-    val ITEMS = getModEntries(BuiltInRegistries.ITEM)
+    val ITEMS get() = getModEntries(BuiltInRegistries.ITEM)
 
     val DB_GLIMMER = register("db_glimmer", Item(Properties()))
 

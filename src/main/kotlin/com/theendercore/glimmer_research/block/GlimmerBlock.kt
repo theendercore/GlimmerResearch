@@ -46,27 +46,64 @@ class GlimmerBlock(properties: Properties) : Block(properties) {
     override fun stepOn(level: Level, blockPos: BlockPos, blockState: BlockState, entity: Entity) {
         super.stepOn(level, blockPos, blockState, entity)
 
-        if (entity is ItemEntity) {
+        if (entity is ItemEntity && !level.isClientSide) {
+            if (entity.owner == null && entity.age <= 100) return
+            if (entity.owner != null && entity.age <= 20) return
+
             val stack = entity.item
 
+            //TODO add stack merging
             val (count, list) = getRecipeInputs(level, stack.copy())
             if (list.isEmpty()) return
-
             val iterations = stack.count / count
+            val mergedList = mergeList(list, iterations)
 
-            repeat(iterations) {
-                for (itemStack in list) {
-                    val resultItem = ItemEntity(
-                        level, entity.x, entity.y, entity.z, itemStack.copy(),
-                        level.random.nextDouble() * 0.1 - 0.05,
-                        0.25,
-                        level.random.nextDouble() * 0.1 - 0.05
-                    )
-                    level.addFreshEntity(resultItem)
-                }
+            for (itemStack in mergedList) {
+                val resultItem = ItemEntity(
+                    level, entity.x, entity.y, entity.z, itemStack.copy(),
+                    level.random.nextDouble() * 0.1 - 0.05,
+                    0.25,
+                    level.random.nextDouble() * 0.1 - 0.05
+                )
+                level.addFreshEntity(resultItem)
             }
             stack.shrink(count * iterations)
         }
+    }
+
+    fun mergeList(stacks: List<ItemStack>, multiplier: Int = 1): List<ItemStack> {
+        if (stacks.size == 1 && multiplier == 1) return stacks
+
+        val newList = ArrayList<ItemStack>(9)
+
+        loop@ for (stkStack in stacks) {
+            repeat(multiplier) {
+                val newStack = stkStack.copy()
+                if (newStack.isStackable && !newList.isEmpty()) {
+                    for (listStack in newList) {
+                        if (listStack.count < listStack.maxStackSize
+                            && ItemStack.isSameItemSameComponents(listStack, newStack)
+                        ) {
+                            val combined = listStack.count + newStack.count
+                            val max = listStack.maxStackSize
+                            if (combined <= max) {
+                                newStack.count = 0
+                                listStack.count = combined
+                            } else if (listStack.count < max) {
+                                newStack.shrink(max - newStack.count)
+                                listStack.count = max
+                            }
+                        }
+                        if (newStack.isEmpty) {
+                            continue@loop
+                        }
+                    }
+                }
+                newList.add(newStack)
+            }
+        }
+
+        return newList
     }
 }
 
